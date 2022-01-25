@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "qpanel"
+version = "0.1.0"
+description = "Dashboard for queues in Asterisk"
+authors = ["Gustavo Santos <gustavo@next.ventures>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.0.2"
+Flask-Babel = "^2.0.0"
+Flask-Login = "^0.5.0"
+SQLAlchemy = "^1.4.31"
+py-Asterisk = "^0.5.18"
+requests = "^2.27.1"
+tailer = "^0.4.1"
+rq-scheduler = "^0.11.0"
+future = "^0.18.2"
+psycopg2 = { version = "^2.9.3", optional = true }
+mysqlclient = { version = "^2.1.0", optional = true }
+
+[tool.poetry.extras]
+postgres = ["psycopg2"]
+mysql = ["mysqlclient"]
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+mock = "^4.0.3"
+flake8 = "^4.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

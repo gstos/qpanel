@@ -21,6 +21,16 @@
 
 ![Demo](samples/animation.gif)
 
+## Notes from this fork
+
+This is a fork from the original [qpanel project](https://github.com/roramirez/qpanel).
+In the process of updating dependencies, 
+I have found easier to include Flask-Themes as part of this project,
+since it needed some changes to make it work with Flask>=2.0.
+
+I am not maintaining this project,
+so please feel free to fork it as you wish and contribute.
+
 ## Overview
 
 QPanel is a panel for queues on Asterisk and FreeSWITCH, powerful and simple monitor in realtime:
