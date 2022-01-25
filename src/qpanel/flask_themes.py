@@ -13,15 +13,13 @@ It takes care of:
 :copyright: 2010 Matthew "LeafStorm" Frazier
 :license:   MIT/X11, see LICENSE for details
 """
-from __future__ import with_statement
 import itertools
 import os
 import os.path
 import re
-from six import iteritems, itervalues, string_types
 from flask import (Blueprint, send_from_directory, render_template, json,
                    _request_ctx_stack, abort, url_for)
-from jinja2 import contextfunction
+from jinja2 import pass_context
 from jinja2.loaders import FileSystemLoader, BaseLoader, TemplateNotFound
 from operator import attrgetter
 from werkzeug.utils import cached_property
@@ -29,7 +27,9 @@ from werkzeug.utils import cached_property
 DOCTYPES = 'html4 html5 xhtml'.split()
 IDENTIFIER = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
 
-containable = lambda i: i if hasattr(i, '__contains__') else tuple(i)
+
+def containable(i):
+    return i if hasattr(i, '__contains__') else tuple(i)
 
 
 def starchain(i):
@@ -138,7 +138,7 @@ class Theme(object):
         return FileSystemLoader(self.templates_path)
 
 
-### theme loaders
+# theme loaders
 
 def list_folders(path):
     """
@@ -189,7 +189,7 @@ def theme_paths_loader(app):
     name of its directory.
     """
     theme_paths = app.config.get('THEME_PATHS', ())
-    if isinstance(theme_paths, string_types):
+    if isinstance(theme_paths, str):
         theme_paths = [p.strip() for p in theme_paths.split(';')]
     return starchain(
         load_themes_from(path) for path in theme_paths
@@ -249,7 +249,7 @@ class ThemeManager(object):
         """
         This yields all the `Theme` objects, in sorted order.
         """
-        return sorted(itervalues(self.themes), key=attrgetter('identifier'))
+        return sorted(self.themes.values(), key=attrgetter('identifier'))
 
     def bind_app(self, app):
         """
@@ -304,7 +304,7 @@ def get_themes_list():
     return list(ctx.app.theme_manager.list_themes())
 
 
-### theme template loader
+# theme template loader
 
 class ThemeTemplateLoader(BaseLoader):
     """
@@ -333,7 +333,7 @@ class ThemeTemplateLoader(BaseLoader):
         res = []
         ctx = _request_ctx_stack.top
         fmt = '_themes/%s/%s'
-        for ident, theme in iteritems(ctx.app.theme_manager.themes):
+        for ident, theme in ctx.app.theme_manager.themes.items():
             res.extend((fmt % (ident, t))
                        for t in theme.jinja_loader.list_templates())
         return res
@@ -344,7 +344,7 @@ def template_exists(templatename):
     return templatename in containable(ctx.app.jinja_env.list_templates())
 
 
-### theme functionality
+# theme functionality
 
 
 themes_blueprint = Blueprint('_themes', __name__, url_prefix='/_themes')
@@ -357,7 +357,8 @@ def static(themeid, filename):
         theme = ctx.app.theme_manager.themes[themeid]
     except KeyError:
         abort(404)
-    return send_from_directory(theme.static_path, filename)
+    else:
+        return send_from_directory(theme.static_path, filename)
 
 
 themes_blueprint.add_url_rule('/<themeid>/<path:filename>', 'static',
@@ -398,7 +399,7 @@ def active_theme(ctx):
         raise RuntimeError("Could not find the active theme")
 
 
-@contextfunction
+@pass_context
 def global_theme_template(ctx, templatename, fallback=True):
     theme = active_theme(ctx)
     templatepath = '_themes/%s/%s' % (theme, templatename)
@@ -408,7 +409,7 @@ def global_theme_template(ctx, templatename, fallback=True):
         return templatename
 
 
-@contextfunction
+@pass_context
 def global_theme_static(ctx, filename, external=False):
     theme = active_theme(ctx)
     return static_file_url(theme, filename, external)

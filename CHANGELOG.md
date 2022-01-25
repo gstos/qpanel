@@ -4,6 +4,16 @@ All notable changes to QPanel will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## 2.0.0a (2022-01-25)
+
+### Development
+- Changed to poetry / pyproject.toml
+- Flask-Themes was merged into qpanel as we gradually remove this dependency
+- All dependencies were updated
+- Removing references to six, Python2 code cheks and other old stuff
+- All tests are now run via pytest
+
+
 ## 1.0.0  (2020-03-28)
 
 ### Added

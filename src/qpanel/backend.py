@@ -3,14 +3,11 @@
 #
 # Copyright (C) 2015-2020 Rodrigo Ramírez Norambuena <a@rodrigoramirez.com>
 #
-
-from __future__ import absolute_import
-from __future__ import print_function
 from .config import QPanelConfig
 from flask_babel import format_timedelta
 from .utils import timedelta_from_field_dict, realname_queue_rename
 from .asterisk import AsteriskAMI
-import six
+
 # In case use Asterisk dont crash with ESL not in system
 try:
     from .freeswitch import Freeswitch
@@ -165,7 +162,7 @@ class Backend(object):
                     tmp_data[q] = data[q]
         else:
             s = set(show)
-            inter = s & six.viewkeys(data)
+            inter = s & data.keys()
             tmp_data = {x: data[x] for x in inter if x in data}
 
         return tmp_data

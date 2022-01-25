@@ -372,23 +372,6 @@ def language(language=None):
     return redirect(url_for('home'))
 
 
-@app.route('/check_new_version')
-@flask_login.login_required
-def check_new_version():
-    need_upgrade = False
-    try:
-        if upgrader.require_upgrade():
-            need_upgrade = True
-    except:
-        pass
-
-    return jsonify(
-        require_upgrade=need_upgrade,
-        current_version=upgrader.get_current_version(),
-        last_stable_version=upgrader.get_stable_version()
-    )
-
-
 @app.route('/logout')
 def logout():
     flask_login.logout_user()

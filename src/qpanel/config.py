@@ -174,7 +174,7 @@ class QPanelConfig:
             only one from available_themes
             if not match return default theme
         """
-        available_themes = ['qpanel', 'old']
+        available_themes = ['qpanel', ]
         theme = self.__get_entry_ini_default('general', 'theme', 'qpanel')
         theme = theme.lower()
         if theme not in available_themes:
