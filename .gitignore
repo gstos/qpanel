@@ -1,5 +1,5 @@
 *.pyc
-config.ini
+/config.ini
 .DS_Store
 */translations/*/*/messages.mo
 

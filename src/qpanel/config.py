@@ -4,7 +4,9 @@
 # Copyright (C) 2015-2020 Rodrigo Ramírez Norambuena <a@rodrigoramirez.com>
 #
 from __future__ import absolute_import
+from collections.abc import Mapping
 import configparser
+import string
 import os
 from .convert import convert_time_when_param
 
@@ -18,6 +20,56 @@ class NotConfigFileQPanel(BaseException):
     def __init__(self, file_path):
         error = 'Error to open file config. Check if %s file exist' % file_path
         super(NotConfigFileQPanel, self).__init__(error)
+
+
+class EnvParser(string.Formatter):
+    def format_field(self, value, format_spec):
+        # Passthrough for unknown format spec
+        if not format_spec.startswith('+') or format_spec.startswith('-'):
+            return super().format_field(value, format_spec)
+
+        # Handles the default logic
+        # + indicates that if value is empty, default is applied
+        # - indicates that if value is not empty, default applied
+        inverse = format_spec.startswith('-')
+        default = format_spec[1:]
+
+        if (not inverse and not value) or (inverse and value is not None):
+            value = default
+
+        return value
+
+    def check_unused_args(self, used_args, args, kwargs) -> None:
+        # This avoids any error by not using all the arguments in the map
+        pass
+
+    def get_field(self, field_name, args, kwargs):
+        print('field_name: %s' % field_name)
+        return super().get_field(field_name, args, kwargs)
+
+
+class Env(Mapping):
+    def __init__(self, container=None):
+        container = container or os.environ
+        self._container = {k.lower(): v for k, v in container.items()}
+
+    def asdict(self):
+        return {'env': self}
+
+    def __getitem__(self, k):
+        return self._container.get(k.lower(), None)
+
+    def __iter__(self):
+        return iter(self._container)
+
+    def __len__(self):
+        return len(self._container)
+
+    def __getattr__(self, k):
+        if self._container:
+            return self[k]
+        else:
+            raise AttributeError(k)
 
 
 class QPanelConfig:
@@ -58,14 +110,22 @@ class QPanelConfig:
                                            'show_service_level', False)
         self.theme = self.get_theme()
 
+    def __parse_env(self, file_content):
+        formatter = EnvParser()
+        mapping = Env().asdict()
+        return formatter.vformat(file_content, (), mapping)
+
     def __open_config_file(self, file_path):
         cfg = configparser.ConfigParser()
         try:
             with open(file_path) as f:
-                cfg.read_file(f)
-                return cfg
+                file_content = f.read()
         except IOError:
             raise NotConfigFileQPanel(file_path)
+
+        file_content = self.__parse_env(file_content)
+        cfg.read_string(file_content)
+        return cfg
 
     def get_hide_config(self):
         tmp = self.__get_entry_ini_default('general', 'hide', '')

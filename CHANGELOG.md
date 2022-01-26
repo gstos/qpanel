@@ -6,6 +6,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 2.0.0a (2022-01-25)
 
+### Added
+- Support for other environment variables via a quick string parsing of the config.ini file. 
+  The env parser is not case-sensitive and allows for a default to be specified following
+  the Docker convention of :+default (or :-).
+- There is now default config.ini file that is shipped with the app,
+  whose main purpose is to be parsed from environment variables.
+
+### Changed
+- Removed 'old' theme from the package (although theme customization is still possible via config.ini)
+
 ### Development
 - Changed to poetry / pyproject.toml
 - Flask-Themes was merged into qpanel as we gradually remove this dependency
