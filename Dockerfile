@@ -1,6 +1,8 @@
-# Builds a container with version of the application being edited.
+# Builds a container with the version specified via --build-arg GIT_BRANCH=<branch> (defaults to 'main')
 FROM python:3.10.2-slim
+ARG GIT_BRANCH=main
 
+# TODO: Check if this is needed here
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
@@ -16,30 +18,18 @@ RUN curl -sSL https://install.python-poetry.org | python3 - && \
 # For version 1.2 (not released yet) onwards:
 # RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python3 && \
 
-# Copy config files
-RUN mkdir -p /app
-COPY ./package.json /app/package.json
-COPY ./package-lock.json /app/package-lock.json
-COPY ./pyproject.toml /app/pyproject.toml
-COPY ./poetry.lock /app/poetry.lock
-COPY ./bower.json /app/bower.json
-COPY ./.bowerrc /app/bowerrc
+# Download the latest development version of the application
+RUN git clone -b $GIT_BRANCH --depth=1 https://github.com/gstos/qpanel.git /app
 
-# To use git version instead of the current use:
-# RUN cd / && git clone -b main --depth=1 https://github.com/gstos/qpanel.git
-COPY ./src /app
 
 WORKDIR /app
+
+# Install npm packages
+RUN npm install
 
 # This will create a virtual environment and install all poetry.lock dependencies
 RUN poetry env use $(python3 --version | sed "s/Python //") && poetry install -n
 RUN poetry run pybabel compile -d qpanel/translations
-RUN npm install
-
-# COPY ../config.ini /app/config.ini
-
-# Exposes the default HTTP port on config
-EXPOSE 8080
 
 # tini: spawn a single child wait for it to exit all
 # while reaping zombies and performing signal forwarding.

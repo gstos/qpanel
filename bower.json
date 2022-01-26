@@ -15,7 +15,7 @@
     "font-awesome": "4.4.x"
   },
   "authors": [
-    "Rodrigo Ramírez Norambuena <a@rodrigoramirez.com>",
+    "Rodrigo Ramírez Norambuena <a@rodrigoramirez.com>"
   ],
   "directory": "app/components/",
   "keywords": [

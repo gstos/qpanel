@@ -13,4 +13,4 @@ case $RUN in
           docker run -it --rm --name qpanel-tox -v $(pwd):/code n42org/tox bash -c 'apt-get update; apt-get install -y swig build-essential; cd /code; tox'
           ;;
 
-esac
+esacit
