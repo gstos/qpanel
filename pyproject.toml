@@ -4,6 +4,7 @@ version = "2.0.0a1"
 description = "Dashboard for queues in Asterisk"
 authors = ["Gustavo Santos <gustavo@next.ventures>"]
 license = "MIT"
+packages = [{ include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -1,0 +1,52 @@
+[manager]
+user = {env.ASTERISK_USER:+qpanel}
+password = {env.ASTERISK_PASSWORD:+}
+port = {env.ASTERISK_PORT:+5038}
+host = {env.ASTERISK_HOST:+localhost}
+
+[general]
+debug = False
+port = {env.QPANEL_PORT:+8080}
+host = {env.QPANEL_HOST:+0.0.0.0}
+;Interval for request update in seconds
+interval = 5
+;hide =  ; Hide queue on monitor separate by comma. Example config hide=queue1,queue2
+;show = ; Add queue what you required to show. Example show=queue1,otherqueuename.
+;This option override the hide parameter
+;base_url =  ; Default is /
+;secret_key = 'PLEASE_CHANGE_ME' ; is a good idea change this value
+language = en
+check_upgrade = True
+;freeswitch = True ; Use FreeSWITCH as backend. Use mod_callcenter
+show_service_level = True ; Show information of service level of a queue
+
+[rename]
+; This section if for rename name of queue
+; Example:
+;5000 = support. This rename queue "5000"  by "support"
+
+[users]
+; add user and password
+; example
+;username = password
+
+;; Config for Freeswitch
+;[freeswitch]
+;host = 127.0.0.1
+;port = 8021
+;password = ClueCon
+
+;; Reset stats
+;; namequeue = when,hour
+;; when can by daily, weekly, monthly, sun, mon, tue, wed, thu, fri or sat
+[reset_stats]
+;queuename = daily,00:00:00
+
+;[queue_log]
+;database = {env.QPANEL_DB_NAME:+asterisk}
+;table = {env.QPANEL_DB_TABLE:+log_queue}
+;host = {env.QPANEL_DB_HOST:+postgres}
+;user = {env.QPANEL_DB_USER:+qpanel}
+;password = {env.QPANEL_DB_PASSWORD:+}
+;port = {env.QPANEL_DB_PORT:+5432}
+;adapter = {env.QPANEL_DB_ADAPTER:+postgres}
