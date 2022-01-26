@@ -1,7 +1,7 @@
 {
   "name": "qpanel",
   "description": "Dashboard for Queues in Asterisk and FreeSWITCH. app_queue panel for Asterisk and mod_callcenter in FreeSWITCH",
-  "version": "2.0.0a",
+  "version": "2.0.0a1",
   "homepage": "https://github.com/roramirez/qpanel",
   "license": "MIT",
   "dependencies": {

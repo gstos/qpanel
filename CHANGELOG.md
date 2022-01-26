@@ -4,7 +4,7 @@ All notable changes to QPanel will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## 2.0.0a (2022-01-25)
+## 2.0.0a1 (2022-01-26)
 
 ### Added
 - Support for other environment variables via a quick string parsing of the config.ini file. 

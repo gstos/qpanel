@@ -43,10 +43,6 @@ class EnvParser(string.Formatter):
         # This avoids any error by not using all the arguments in the map
         pass
 
-    def get_field(self, field_name, args, kwargs):
-        print('field_name: %s' % field_name)
-        return super().get_field(field_name, args, kwargs)
-
 
 class Env(Mapping):
     def __init__(self, container=None):

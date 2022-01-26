@@ -28,8 +28,13 @@ In the process of updating dependencies,
 I have found easier to include Flask-Themes as part of this project,
 since it needed some changes to make it work with Flask>=2.0.
 
-I am not maintaining this project,
+I am planning to maintaining this project for the longer term,
 so please feel free to fork it as you wish and contribute.
+
+
+# Original documentation
+PLEASE BE AWARE THAT CHANGES WERE NOT REFLECTED HERE YET.
+CHECK THE CHANGELOG FOR THE UPDATES.
 
 ## Overview
 

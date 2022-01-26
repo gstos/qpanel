@@ -1,0 +1,8 @@
+REMINDER
+
+When changing version number, please do not forget to update all the files below:
+
+pyproject.toml
+package.json
+bower.json
+src/qpanel/__init__.py
