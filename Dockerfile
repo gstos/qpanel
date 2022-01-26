@@ -29,7 +29,7 @@ RUN npm install
 
 # This will create a virtual environment and install all poetry.lock dependencies
 RUN poetry env use $(python3 --version | sed "s/Python //") && poetry install -n
-RUN poetry run pybabel compile -d qpanel/translations
+RUN poetry run pybabel compile -d ./src/qpanel/translations
 
 # tini: spawn a single child wait for it to exit all
 # while reaping zombies and performing signal forwarding.

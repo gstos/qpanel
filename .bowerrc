@@ -1,4 +1,4 @@
 {
-  "directory": "qpanel/static/components",
+  "directory": "src/qpanel/static/components",
   "interactive": false
 }
