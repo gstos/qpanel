@@ -5,7 +5,7 @@
 #
 
 import requests
-from distutils.version import LooseVersion
+from packaging import version
 import qpanel
 
 
@@ -19,8 +19,8 @@ def require_upgrade():
 
 
 def check_require_upgrade(current, stable):
-    a = LooseVersion(current)
-    b = LooseVersion(stable)
+    a = version.parse(current)
+    b = version.parse(stable)
     if a < b:
         return True
     return False

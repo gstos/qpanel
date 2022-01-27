@@ -2,7 +2,7 @@
 user = {env.ASTERISK_USER:+qpanel}
 password = {env.ASTERISK_PASSWORD:+}
 port = {env.ASTERISK_PORT:+5038}
-host = {env.ASTERISK_HOST:+localhost}
+host = {env.ASTERISK_HOST:+127.0.0.1}
 
 [general]
 debug = False
@@ -43,10 +43,10 @@ show_service_level = True ; Show information of service level of a queue
 ;queuename = daily,00:00:00
 
 ;[queue_log]
-;database = {env.QPANEL_DB_NAME:+asterisk}
-;table = {env.QPANEL_DB_TABLE:+log_queue}
-;host = {env.QPANEL_DB_HOST:+postgres}
+;adapter = {env.QPANEL_DB_ADAPTER:+postgres}
+;host = {env.QPANEL_DB_HOST:+127.0.0.1}
+;port = {env.QPANEL_DB_PORT:+5432}
 ;user = {env.QPANEL_DB_USER:+qpanel}
 ;password = {env.QPANEL_DB_PASSWORD:+}
-;port = {env.QPANEL_DB_PORT:+5432}
-;adapter = {env.QPANEL_DB_ADAPTER:+postgres}
+;database = {env.QPANEL_DB_NAME:+asterisk}
+;table = {env.QPANEL_DB_TABLE:+log_queue}

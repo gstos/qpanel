@@ -32,7 +32,7 @@ class User(flask_login.UserMixin):
 cfg = QPanelConfig()
 backend = Backend()
 
-EXTERNAL_LOGIN = cfg.get_value_set_default('general', 'external_login', False) != False
+EXTERNAL_LOGIN = bool(cfg.get_value_set_default('general', 'external_login', False)) is not False
 
 
 def get_filter_queue():

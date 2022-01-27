@@ -1,0 +1,15 @@
+*/
+!src/*
+!pyproject.toml
+!poetry.lock
+
+!package.json
+!package-lock.json
+!.bowerrc
+!bower.json
+
+!tox.ini
+!.travis.yml
+!.travis.sh
+
+!run_test.sh
