@@ -27,9 +27,8 @@ WORKDIR /app
 RUN npm install
 
 # Python dependencies via poetry
-ARG EXTRAS
-RUN poetry env use $(python3 --version | sed "s/Python //") && \
-    if [[ -z "$EXTRAS" ]] ; then poetry install ; else poetry install -E $EXTRAS ; fi
+ARG EXTRAS=""
+RUN poetry env use $(python3 --version | sed "s/Python //") && poetry install -E $EXTRAS || poetry install
 RUN poetry run pybabel compile -d ./src/qpanel/translations
 
 ARG QPANEL_PORT=8080
